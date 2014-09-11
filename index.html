@@ -5,47 +5,114 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Gioco del 15</title>
         <link rel="stylesheet" href="css/foundation.css" />
+        <link rel="stylesheet" href="css/game.css" />
         <script src="js/vendor/modernizr.js"></script>
     </head>
     <body>
         <!-- Nav bar -->
-        <nav class="top-bar" data-topbar>
-            <ul class="title-area">
-                <li class="name">
-                    <h1><a href="#">Gioco del 15</a></h1>
-                </li>
-                <!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
-                <li class="toggle-topbar menu-icon">
-                    <a href="#"><span></span></a>
-                </li>
-            </ul>
-
-            <section class="top-bar-section">
-                <!-- Right Nav Section -->
-                <ul class="right">
-                    <li class="has-dropdown">
-                        <a href="javascript:void(0)">New game</a>
-                        <ul class="dropdown">
-                            <li><a href="javascript:void(0)" id="8gameButton">8 game</a></li>
-                            <li><a href="javascript:void(0)" id="15gameButton">15 game</a></li>
-                            <li><a href="javascript:void(0)" id="24gameButton">24 game</a></li>
-                        </ul>
+        <div class="contain-to-grid">
+            <nav class="top-bar" data-topbar>
+                <ul class="title-area">
+                    <li class="name">
+                        <h1><a href="#">Gioco del 15</a></h1>
                     </li>
-                    <li><a href="#">Statistic</a></li>
-                    <li><a href="#">Info</a></li>
+                    <!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
+                    <li class="toggle-topbar menu-icon">
+                        <a href="#"><span></span></a>
+                    </li>
                 </ul>
-                <!-- Left Nav Section -->
-                <ul class="left">
 
-                </ul>
-            </section>
-        </nav>
+                <section class="top-bar-section">
+                    <!-- Right Nav Section -->
+                    <ul class="right">
+                        <li class="has-dropdown">
+                            <a href="javascript:void(0)">New game</a>
+                            <ul class="dropdown">
+                                <li><a href="javascript:void(0)" id="8gameButton">8 game</a></li>
+                                <li><a href="javascript:void(0)" id="15gameButton">15 game</a></li>
+                                <li><a href="javascript:void(0)" id="24gameButton">24 game</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="#">Statistic</a></li>
+                        <li><a href="#">Info</a></li>
+                    </ul>
+                    <!-- Left Nav Section -->
+                    <ul class="left">
+
+                    </ul>
+                </section>
+            </nav>
+
+        </div>
         
         <!-- Main content -->
         <div class="row">
             <div class="small-12 large-8 columns" id="mainContent">
             </div>
+            <!-- Side content -->
             <div class="small-12 large-4 columns" id="sideContent">
+                <div id="strategia">
+                    <fieldset>
+                        <legend>Seleziona strategia</legend>
+                        <label></label>
+                        <select>
+                            <option value="greedy">Ricerca best-first greedy</option>
+                            <option value="A">A*</option>
+                            <option value="IDA">Iterative Deepening A*</option>
+                            <option value="RBFS">Recursive Best First Search</option>
+                            <option value="hill-climbing">Hill-climbing</option>
+                            <option value="annealing">Simulated annealing</option>
+                        </select>
+                    </fieldset>
+
+                </div>
+
+                <div id="opzioniA" hidden>
+                    <fieldset>
+                        <legend>Seleziona euristica per A*</legend>
+                        <div class="row">
+                            <div class="small-4 columns">
+                                <div class="switch round">
+                                    <input type="radio" name="euristica-A" value="tasselli-sbagliati" id="tasselli-sbagliati">
+                                    <label for="tasselli-sbagliati">Numero di tasselli sbagliati</label>
+                                </div>
+                            </div>
+                            <div class="small-8 columns">
+                                <label>Numero di tasselli sbagliati</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="small-4 columns">
+                                <div class="switch round">
+                                    <input type="radio" name="euristica-A" value="distanza-manhattan" id="distanza-manhattan" checked>
+                                    <label for="distanza-manhattan">Distanza Manhattan</label>
+                                </div>
+                            </div>
+                            <div class="small-8 columns">
+                                <label>Distanza Manhattan</label>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+
+                <div id="opzioniIDA" hidden>
+                    <fieldset>
+                        <legend>Seleziona cutoff per IDA*</legend>
+                        <div id="cutoff-slider" class="range-slider round" data-slider data-option="display_selector: #cutoff-value;">
+                            <span class="range-slider-handle" role="slider" tabindex="0" id="cutoff-value"></span>
+                            <span class="range-slider-active-segment"></span>
+                            <input type="hidden">
+                        </div>
+                        <div>
+                            <span id="cutoff-value1"></span>
+                        </div>
+                    </fieldset>
+                </div>
+
+                <div id="inizia-partita">
+
+                </div>
+
             </div>
         </div>
     
@@ -53,12 +120,18 @@
         <!-- Dependencies -->
         <script src="js/vendor/jquery.js"></script>
         <script src="js/foundation.min.js"></script>
+        <script src="js/foundation/foundation.slider.js"></script>
         
         <!-- Game js code -->
         <script src="game/listeners.js"></script>
+        <script src="game/controller.js"></script>
         
         <script>
-          $(document).foundation();
+            $(document).foundation();
+            $(document).ready(function() {
+
+            })
+
         </script>
     </body>
 </html>

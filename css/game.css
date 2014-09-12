@@ -1,4 +1,32 @@
 .range-slider-handle {
-    padding: 3px 0 0 7px;
+    padding: 4px 0 0 7px;
     color: #FFF;
+}
+
+.nascosto {
+    display: none;
+}
+
+.container {
+    padding: 5%;
+}
+
+.fullWidth {
+    width: 100%;
+}
+
+#tavola {
+
+}
+
+.tassello {
+    fill: #3FBFBF;
+    stroke: #333333;
+    stroke-width: 2px;
+}
+
+.tassello > text {
+    font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
+    fill: #FFF;
+    stroke-width: 3px;
 }

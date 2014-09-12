@@ -1,22 +1,27 @@
 $('body').on('click', '#8gameButton', function() {
-    alert( $( this ).text() );
+    $('#mainContent').show();
+    pulisciTavola();
+    adattaAltezza();
+    disegnaTavola(3);
 })
 
 $('body').on('click', '#15gameButton', function() {
-    alert( $( this ).text() );
+    $('#mainContent').show();
+    pulisciTavola();
+    adattaAltezza();
+    disegnaTavola(4);
 })
 
 $('body').on('click', '#24gameButton', function() {
-    alert( $( this ).text() );
+    $('#mainContent').show();
+    pulisciTavola();
+    adattaAltezza();
+    disegnaTavola(5);
 })
 
-$('document').foundation({
-    slider: {
-        on_change: function(){
-
-        }
-    }
-});
+$('window').resize(function() {
+    adattaAltezza();
+})
 
 $('#cutoff-slider').change(function () {
     var value = $(this).attr('data-slider');
@@ -24,7 +29,7 @@ $('#cutoff-slider').change(function () {
 })
 
 $('select').change(function () {
-    var value = $( "select option:selected" ).attr('value');
+    var value = $( 'select option:selected' ).attr('value');
     if(value == 'A') {
         $('#opzioniA').show();
         $('#opzioniIDA').hide();
@@ -32,6 +37,7 @@ $('select').change(function () {
     else {
         if(value == 'IDA') {
             $('#opzioniIDA').show();
+            $('#opzioniIDA').foundation('slider', 'set_value', 0);
             $('#opzioniA').hide();
         }
         else {

@@ -54,64 +54,75 @@
             </div>
             <!-- Side content -->
             <div class='small-12 medium-5 large-4 columns' id='sideContent'>
-                <div id='strategia'>
-                    <fieldset>
-                        <legend>Seleziona strategia</legend>
-                        <label></label>
-                        <select>
-                            <option value='greedy'>Ricerca best-first greedy</option>
-                            <option value='A'>A*</option>
-                            <option value='IDA'>Iterative Deepening A*</option>
-                            <option value='RBFS'>Recursive Best First Search</option>
-                            <option value='hill-climbing'>Hill-climbing</option>
-                            <option value='annealing'>Simulated annealing</option>
-                        </select>
-                    </fieldset>
-                </div>
+                <div class="row">
+                    <div class='small-12 columns' id='strategia'>
+                        <fieldset>
+                            <legend>Seleziona strategia</legend>
+                            <label></label>
+                            <select>
+                                <option value='greedy'>Ricerca best-first greedy</option>
+                                <option value='A'>A*</option>
+                                <option value='IDA'>Iterative Deepening A*</option>
+                                <option value='RBFS'>Recursive Best First Search</option>
+                                <option value='hill-climbing'>Hill-climbing</option>
+                                <option value='annealing'>Simulated annealing</option>
+                            </select>
+                        </fieldset>
+                    </div>
 
-                <div id='opzioniA' class='nascosto'>
-                    <fieldset>
-                        <legend>Seleziona euristica per A*</legend>
-                        <div class='row'>
-                            <div class='small-4 columns'>
-                                <div class='switch radius'>
-                                    <input type='radio' name='euristica-A' value='tasselli-sbagliati' id='tasselli-sbagliati'>
-                                    <label for='tasselli-sbagliati'>N&deg; tasselli sbagliati</label>
+                    <div class='small-12 columns nascosto' id='opzioniA'>
+                        <fieldset>
+                            <legend>Seleziona euristica per A*</legend>
+                            <div class='row'>
+                                <div class='small-4 columns'>
+                                    <div class='switch radius'>
+                                        <input type='radio' name='euristica-A' value='tasselli-sbagliati' id='tasselli-sbagliati'>
+                                        <label for='tasselli-sbagliati'>N&deg; tasselli sbagliati</label>
+                                    </div>
+                                </div>
+                                <div class='small-8 columns'>
+                                    <label>N&deg; tasselli sbagliati</label>
                                 </div>
                             </div>
-                            <div class='small-8 columns'>
-                                <label>N&deg; tasselli sbagliati</label>
-                            </div>
-                        </div>
-                        <div class='row'>
-                            <div class='small-4 columns'>
-                                <div class='switch radius'>
-                                    <input type='radio' name='euristica-A' value='distanza-manhattan' id='distanza-manhattan' checked>
-                                    <label for='distanza-manhattan'>Distanza Manhattan</label>
+                            <div class='row'>
+                                <div class='small-4 columns'>
+                                    <div class='switch radius'>
+                                        <input type='radio' name='euristica-A' value='distanza-manhattan' id='distanza-manhattan' checked>
+                                        <label for='distanza-manhattan'>Distanza Manhattan</label>
+                                    </div>
+                                </div>
+                                <div class='small-8 columns'>
+                                    <label>Distanza Manhattan</label>
                                 </div>
                             </div>
-                            <div class='small-8 columns'>
-                                <label>Distanza Manhattan</label>
+                        </fieldset>
+                    </div>
+
+                    <div class='small-12 columns nascosto' id='opzioniIDA'>
+                        <fieldset>
+                            <legend>Seleziona cutoff per IDA*</legend>
+                            <div id='cutoff-slider' class='range-slider radius' data-slider data-option='display_selector: #cutoff-value;'>
+                                <span class='range-slider-handle' role='slider' tabindex='0' id='cutoff-value'></span>
+                                <span class='range-slider-active-segment'></span>
+                                <input type='hidden'>
                             </div>
-                        </div>
-                    </fieldset>
-                </div>
+                        </fieldset>
+                    </div>
 
-                <div id='opzioniIDA' class='nascosto'>
-                    <fieldset>
-                        <legend>Seleziona cutoff per IDA*</legend>
-                        <div id='cutoff-slider' class='range-slider radius' data-slider data-option='display_selector: #cutoff-value;'>
-                            <span class='range-slider-handle' role='slider' tabindex='0' id='cutoff-value'></span>
-                            <span class='range-slider-active-segment'></span>
-                            <input type='hidden'>
-                        </div>
-                    </fieldset>
-                </div>
+                    <div class="small-12 columns" id='generatore'>
+                        <fieldset>
+                            <legend>Generatore</legend>
+                            <button id='generaButton' class="button radius">Genera</button>
+                        </fieldset>
+                    </div>
 
-                <div id='inizia-partita'>
-                    <button id='startButton' class='button radius right'>Avvia</button>
+                    <div class="small-12 columns" id='inizia-partita'>
+                        <fieldset>
+                            <legend>Solutore</legend>
+                            <button id='startButton' class='button radius'>Avvia</button>
+                        </fieldset>
+                    </div>
                 </div>
-
             </div>
         </div>
     
@@ -123,6 +134,7 @@
         
         <!-- Game js code -->
         <script src='game/model.js'></script>
+        <script src="game/algorithm.js"></script>
         <script src='game/controller.js'></script>
         <script src='game/listeners.js'></script>
         

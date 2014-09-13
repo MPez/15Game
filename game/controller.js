@@ -2,35 +2,46 @@ function start() {
     console.log('on start');
 }
 
+//oggetto globale tavola
 var tavola;
+
+//oggetto globale svg dove disegnare la tavola
+var svg = d3.select('#tavola');
 
 //funzione che crea l'oggetto tavola e i relativi taselli
 function creaTavola(num, x, y) {
     console.log('on creaTavola');
 
     //distanza tra due tasselli adiacenti
-    distanza = $('#tavola').width() / num;
+    var distanza = $('#tavola').width() / num;
 
     tavola = new Tavola(num, distanza, x, y);
     tavola.creaTasselli();
 }
 
-//oggetto svg dove disegnare la tavola
-var svg = d3.select('#tavola');
+//funzione che genera una partita casuale
+function generaPartita() {
+    console.log('on shuffle');
+
+    tavola.tasselli = shuffle(tavola.tasselli);
+    disegnaTavola();
+}
 
 //funzione che disegna la tavola
 function disegnaTavola() {
     console.log('on disegnaTavola');
 
-    var tasselli = svg.selectAll('rect')
+    //data join
+    var tasselli = svg.selectAll('.tassello')
         .data(tavola.tasselli, function(d) { return d.id; });
 
+    //enter selection
     var tasselliEnter = tasselli.enter().append('g')
         .attr('class', 'tassello');
 
     tasselliEnter.append('rect')
-        .attr('width', distanza)
-        .attr('height', distanza)
+        .attr('width', function(d) {return d.lunghezza; })
+        .attr('height', function(d) {return d.lunghezza; })
         .attr('x', function(d) { return d.x; })
         .attr('y', function(d) { return d.y; });
 
@@ -40,21 +51,48 @@ function disegnaTavola() {
         .style('font-size', function(d) { return d.lunghezza * 0.8; })
         .attr('x', function(d) { return d.lunghezza / 2 + d.x; })
         .attr('y', function(d) { return d.lunghezza / 2 + d.y; })
-        .attr('dy', function(d) { return (d.lunghezza * 0.8) / 3; });
+        .attr('dy', '.35em');
 
     tasselliEnter.filter(function(d, i) { return i & 1 })
         .style('fill', '#333');
 
     tasselliEnter.filter(function(d) { return d.id == Math.pow(tavola.dimensione, 2);  })
         .style('fill', '#FFF');
+}
 
+//funzione che aggiorna la tavola ad uno nuovo stato
+function aggiornaTavola() {
+    console.log('on aggiornaTavola');
+
+    //data join
+    var tasselli = svg.selectAll('.tassello')
+        .data(tavola.tasselli, function(d) { return d.id; });
+
+    //update selection
+    tasselli.selectAll('rect')
+        .filter(function(d) { return d.modificato == 1; })
+        .transition()
+        .duration(100)
+        .attr('width', function(d) {return d.lunghezza; })
+        .attr('height', function(d) {return d.lunghezza; })
+        .attr('x', function(d) { return d.x; })
+        .attr('y', function(d) { return d.y; });
+
+    tasselli.selectAll('text')
+        .filter(function(d) { return d.modificato == 1; })
+        .transition()
+        .duration(100)
+        .style('font-size', function(d) { return d.lunghezza * 0.8; })
+        .attr('x', function(d) { return d.lunghezza / 2 + d.x; })
+        .attr('y', function(d) { return d.lunghezza / 2 + d.y; })
+        .attr('dy', '.35em');
 }
 
 //funzione che elimina la tavola precedente
 function pulisciTavola() {
     console.log('on pulisciTavola');
 
-    svg.selectAll('rect').data([]).exit().remove();
+    svg.selectAll('.tassello').data([]).exit().remove();
 }
 
 //funzione che adatta le dimensioni della tavola e dei tasselli
@@ -66,10 +104,10 @@ function adattaTavola() {
         console.log('on else adattaTavola');
 
         var width = $('#tavola').width();
-        pulisciTavola();
+
         adattaAltezzaTavola();
         tavola.adattaTasselli(width);
-        disegnaTavola();
+        aggiornaTavola();
     }
 }
 

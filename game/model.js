@@ -4,6 +4,7 @@ function Tassello(id, x, y, l) {
     this.x = x;
     this.y = y;
     this.lunghezza = l;
+    this.modificato = 0;
 }
 
 //funzione che modifica la posizione e la lunghezza del tassello
@@ -13,6 +14,7 @@ Tassello.prototype.adattaMisure = function(x, y, l) {
     this.x = x;
     this.y = y;
     this.lunghezza = l;
+    this.modificato = 1;
 }
 
 //costruttore oggetto tavola

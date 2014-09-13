@@ -22,6 +22,10 @@ $('body').on('click', '#24gameButton', function() {
     disegnaTavola();
 });
 
+$('body').on('click', '#generaButton', function() {
+    generaPartita();
+});
+
 $(window).resize(adattaTavola);
 
 $('#cutoff-slider').change(function () {

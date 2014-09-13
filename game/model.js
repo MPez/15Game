@@ -27,5 +27,4 @@ Tavola.prototype.creaTasselli = function() {
         }
         y += dist;
     }
-    console.log(this.tasselli);
 }

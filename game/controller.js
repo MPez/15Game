@@ -38,8 +38,11 @@ function disegnaTavola(num) {
         .attr('y', function(d) { return d.lunghezza / 2 + d.y; })
         .attr('dy', function(d) { return (d.lunghezza * 0.8) / 3; });
 
-    tasselliEnter.filter(function(d, i) { return i & 1})
-        .style('fill', '#FAFFDB');
+    tasselliEnter.filter(function(d, i) { return i & 1 })
+        .style('fill', '#333');
+
+    tasselliEnter.filter(function(d) { return d.id == Math.pow(tavola.dimensione, 2);  })
+        .style('fill', '#FFF');
 
 }
 
@@ -50,8 +53,8 @@ function pulisciTavola() {
 
 //funzione che adatta l'altezza dei container della tavola
 function adattaAltezza() {
-    var width = $('.fullWidth').css('width');
-    $('.heightDim').attr('height', width);
+    var width = $('#tavola').width();
+    $('.heightDim').attr('height', width + 4);
 }
 
 

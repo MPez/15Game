@@ -3,30 +3,28 @@ $('body').on('click', '#8gameButton', function() {
     pulisciTavola();
     adattaAltezza();
     disegnaTavola(3);
-})
+});
 
 $('body').on('click', '#15gameButton', function() {
     $('#mainContent').show();
     pulisciTavola();
     adattaAltezza();
     disegnaTavola(4);
-})
+});
 
 $('body').on('click', '#24gameButton', function() {
     $('#mainContent').show();
     pulisciTavola();
     adattaAltezza();
     disegnaTavola(5);
-})
+});
 
-$('window').resize(function() {
-    adattaAltezza();
-})
+$('window').resize(adattaAltezza());
 
 $('#cutoff-slider').change(function () {
     var value = $(this).attr('data-slider');
     $('#cutoff-value').text(value);
-})
+});
 
 $('select').change(function () {
     var value = $( 'select option:selected' ).attr('value');

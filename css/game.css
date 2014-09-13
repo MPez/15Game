@@ -16,12 +16,12 @@
 }
 
 #tavola {
-
+    border: 2px solid #333;
 }
 
 .tassello {
     fill: #3FBFBF;
-    stroke: #333333;
+    stroke: #FFF;
     stroke-width: 2px;
 }
 

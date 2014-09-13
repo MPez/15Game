@@ -1,9 +1,13 @@
 function start() {
-
+    console.log('on start');
 }
+
+var tavola;
 
 //funzione che crea l'oggetto tavola e i relativi taselli
 function creaTavola(num, x, y) {
+    console.log('on creaTavola');
+
     //distanza tra due tasselli adiacenti
     distanza = $('#tavola').width() / num;
 
@@ -15,8 +19,8 @@ function creaTavola(num, x, y) {
 var svg = d3.select('#tavola');
 
 //funzione che disegna la tavola
-function disegnaTavola(num) {
-    creaTavola(num, 0, 0);
+function disegnaTavola() {
+    console.log('on disegnaTavola');
 
     var tasselli = svg.selectAll('rect')
         .data(tavola.tasselli, function(d) { return d.id; });
@@ -48,13 +52,34 @@ function disegnaTavola(num) {
 
 //funzione che elimina la tavola precedente
 function pulisciTavola() {
+    console.log('on pulisciTavola');
+
     svg.selectAll('rect').data([]).exit().remove();
 }
 
+//funzione che adatta le dimensioni della tavola e dei tasselli
+function adattaTavola() {
+    if(typeof(tavola) === 'undefined') {
+        console.log('on if adattaTavola');
+    }
+    else {
+        console.log('on else adattaTavola');
+
+        var width = $('#tavola').width();
+        pulisciTavola();
+        adattaAltezzaTavola();
+        tavola.adattaTasselli(width);
+        disegnaTavola();
+    }
+}
+
 //funzione che adatta l'altezza dei container della tavola
-function adattaAltezza() {
+function adattaAltezzaTavola() {
+    console.log('on adattaAltezzaTavola');
+
     var width = $('#tavola').width();
     $('.heightDim').attr('height', width + 4);
 }
+
 
 

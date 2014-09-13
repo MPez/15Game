@@ -1,25 +1,28 @@
 $('body').on('click', '#8gameButton', function() {
     $('#mainContent').show();
     pulisciTavola();
-    adattaAltezza();
-    disegnaTavola(3);
+    adattaAltezzaTavola();
+    creaTavola(3,0,0);
+    disegnaTavola();
 });
 
 $('body').on('click', '#15gameButton', function() {
     $('#mainContent').show();
     pulisciTavola();
-    adattaAltezza();
-    disegnaTavola(4);
+    adattaAltezzaTavola();
+    creaTavola(4,0,0);
+    disegnaTavola();
 });
 
 $('body').on('click', '#24gameButton', function() {
     $('#mainContent').show();
     pulisciTavola();
-    adattaAltezza();
-    disegnaTavola(5);
+    adattaAltezzaTavola();
+    creaTavola(5,0,0);
+    disegnaTavola();
 });
 
-$('window').resize(adattaAltezza());
+$(window).resize(adattaTavola);
 
 $('#cutoff-slider').change(function () {
     var value = $(this).attr('data-slider');

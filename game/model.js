@@ -45,11 +45,11 @@ Tavola.prototype.creaTasselli = function() {
     }
 }
 
-//funzione che adatta la posizione e la dimensione dei tasselli
-Tavola.prototype.adattaTasselli = function(distanza) {
-    console.log('on adattaTasselli');
+//funzione che adatta la posizione e la dimensione dei tasselli e li riordina
+Tavola.prototype.riordinaTasselli = function(distanza) {
+    console.log('on riordinaTasselli');
 
-    var dist = distanza / this.dimensione;
+    var dist = this.distanza = distanza / this.dimensione;
     var dim = this.dimensione;
     var x = y = i = 0;
     for(var r = 1; r <= dim; r++) {
@@ -60,5 +60,25 @@ Tavola.prototype.adattaTasselli = function(distanza) {
             i++;
         }
         y += dist;
+    }
+}
+
+//funzione che adatta la posizione e la dimensione dei tasselli
+Tavola.prototype.adattaTasselli = function(distanza) {
+    console.log('on adattaTasselli');
+
+    var dist = distanza / this.dimensione;
+    var delta = this.distanza - dist;
+    this.distanza = dist;
+    var dim = this.dimensione;
+    var i = 0;
+
+    for(var r = 0; r < dim; r++) {
+        for(var c = 0; c < dim; c++) {
+            this.tasselli[i].adattaMisure(this.tasselli[i].x - (delta * c),
+                                          this.tasselli[i].y - (delta * r),
+                                         dist);
+            i++;
+        }
     }
 }

@@ -24,7 +24,7 @@ function generaPartita() {
     console.log('on shuffle');
 
     tavola.tasselli = shuffle(tavola.tasselli);
-    disegnaTavola();
+    aggiornaTavola();
 }
 
 //funzione che disegna la tavola
@@ -84,7 +84,7 @@ function aggiornaTavola() {
         .duration(100)
         .style('font-size', function(d) { return d.lunghezza * 0.8; })
         .attr('x', function(d) { return d.lunghezza / 2 + d.x; })
-        .attr('y', function(d) { return d.lunghezza / 2 + d.y; })
+        .attr('y', function(d) { d.modificato = 0; return d.lunghezza / 2 + d.y; })
         .attr('dy', '.35em');
 }
 

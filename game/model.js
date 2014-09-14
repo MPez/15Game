@@ -71,9 +71,9 @@ Tavola.prototype.adattaTasselli = function(distanza) {
     var delta = this.distanza - dist;
     this.distanza = dist;
     var dim = this.dimensione;
-    var n = this.tasselli.length;
+    var i = 0;
 
-    for(var i, r = 0; r < dim; r++) {
+    for(var r = 0; r < dim; r++) {
         for(var c = 0; c < dim; c++) {
             this.tasselli[i].adattaMisure(this.tasselli[i].x - (delta * c),
                                           this.tasselli[i].y - (delta * r),

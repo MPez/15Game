@@ -20,10 +20,17 @@ function creaTavola(num, x, y) {
 }
 
 //funzione che genera una partita casuale
-function generaPartita() {
+function mescolaTavola() {
     console.log('on shuffle');
 
     tavola.tasselli = shuffle(tavola.tasselli);
+    aggiornaTavola();
+}
+
+function riordinaTavola() {
+    console.log('on riordinaTavola');
+
+    tavola.riordinaTasselli(tavola.distanza);
     aggiornaTavola();
 }
 

@@ -10,6 +10,8 @@ function shuffle(array) {
         array[i].y = array[j].y;
         array[j].x = x;
         array[j].y = y;
+        array[i].modificato = 1;
+        array[j].modificato = 1;
     }
     return array;
 }

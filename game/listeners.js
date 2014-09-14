@@ -22,8 +22,12 @@ $('body').on('click', '#24gameButton', function() {
     disegnaTavola();
 });
 
-$('body').on('click', '#generaButton', function() {
-    generaPartita();
+$('body').on('click', '#mescolaButton', function() {
+    mescolaTavola();
+});
+
+$('body').on('click', '#riordinaButton', function() {
+    riordinaTavola();
 });
 
 $(window).resize(adattaTavola);

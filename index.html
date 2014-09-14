@@ -47,13 +47,13 @@
         <!-- Main content -->
         <div class='row'>
             <!-- Game table -->
-            <div class='small-12 medium-7 large-8 columns nascosto' id='mainContent'>
+            <div class='small-12 medium-6 large-8 columns nascosto' id='mainContent'>
                 <div id='tavolaContainer' class='container fullWidth heightDim'>
                     <svg id='tavola' class='fullWidth heightDim'></svg>
                 </div>
             </div>
             <!-- Side content -->
-            <div class='small-12 medium-5 large-4 columns' id='sideContent'>
+            <div class='small-12 medium-6 large-4 columns' id='sideContent'>
                 <div class="row">
                     <div class='small-12 columns' id='strategia'>
                         <fieldset>
@@ -112,7 +112,14 @@
                     <div class="small-12 columns" id='generatore'>
                         <fieldset>
                             <legend>Generatore</legend>
-                            <button id='generaButton' class="button radius">Genera</button>
+                            <div class="row">
+                                <div class="small-6 columns">
+                                    <button id='mescolaButton' class="button radius">Mescola</button>
+                                </div>
+                                <div class="small-6 columns">
+                                    <button id='riordinaButton' class="button radius right">Riordina</button>
+                                </div>
+                            </div>
                         </fieldset>
                     </div>
 

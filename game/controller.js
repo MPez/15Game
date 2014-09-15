@@ -1,5 +1,6 @@
 function start() {
     console.log('on start');
+    nascondiAlert();
 }
 
 //oggetto globale tavola
@@ -23,8 +24,90 @@ function creaTavola(num, x, y) {
 function mescolaTavola() {
     console.log('on shuffle');
 
+    nascondiAlert();
+
     tavola.tasselli = shuffle(tavola.tasselli);
     aggiornaTavola();
+    verificaTavola();
+}
+
+//funziona che controlla se la configurazione della tavola si può risolvere
+//sfruttando l'invariante della parita' della somma del 15 della tavola
+function verificaTavola() {
+    console.log('on verificaTavola');
+
+    var dim = tavola.dimensione;
+    var distanzaVuotoFine = calcolaDistanzaManhattan(tavola.tasselli[dim * dim - 1].posizione, [dim - 1, dim - 1]);
+    var somma15 = calcolaInversioni() + distanzaVuotoFine;
+
+    if(somma15 % 2) {
+        mostraAlert('La tavola non si può risolvere!','alert');
+    }
+    else {
+        mostraAlert('La tavola si può risolvere!', 'success')
+    }
+}
+
+//funzione che calcola la distanza Manhattan tra le posizioni di due tasselli
+function calcolaDistanzaManhattan(inizio, fine) {
+    console.log('on calcolaDistanzaManhattan');
+
+    var L = Math.abs(inizio[0] - fine[0]) + Math.abs(inizio[1] - fine[1]);
+    return L;
+}
+
+//funzione che calcola il numero di inversioni presente nella tavola
+function calcolaInversioni() {
+    console.log('on calcolaInversioni');
+
+    var dim = tavola.dimensione;
+    var inv = 0;
+    var T = ordinaTasselli();
+    var somma = 0;
+
+    for(var i = 0; i < dim * dim; i++) {
+        for(var j = i + 1; j < dim * dim; j++) {
+            if(T[j].id < T[i].id ) {
+                somma++;
+            }
+        }
+    }
+    return somma;
+}
+
+//funzione che ordina i tasselli in base alla posizione sulla tavola
+function ordinaTasselli() {
+    console.log('on ordinaTasselli');
+
+    var T = tavola.tasselli.slice();
+
+    T.sort(function(a, b) {
+                if(a.posizione[0] < b.posizione[0]) {
+                    return -1;
+                }
+                else {
+                    if(a.posizione[0] == b.posizione[0] && a.posizione[1] < b.posizione[1]){
+                        return -1;
+                    }
+                    else {
+                        return 1;
+                    }
+                }
+            })
+    return T;
+}
+
+//funzione che aggiorna l'alert con testo e classe corrette e lo mostra
+function mostraAlert(testo, classe) {
+    $('#risolvibile').text(testo);
+    $('#risolvibile').addClass(classe);
+    $('#risolvibile').show();
+}
+
+//funzione che nasconde l'alert
+function nascondiAlert() {
+    $('#risolvibile').removeClass('alert' || 'success');
+    $('#risolvibile').hide();
 }
 
 //funzione che sistema i tasselli nella posizione iniziale
@@ -33,6 +116,31 @@ function riordinaTavola() {
 
     tavola.riordinaTasselli();
     aggiornaTavola();
+    nascondiAlert();
+}
+
+//funzione che adatta le dimensioni della tavola e dei tasselli
+function adattaTavola() {
+    if(typeof(tavola) === 'undefined') {
+        console.log('on if adattaTavola');
+    }
+    else {
+        console.log('on else adattaTavola');
+
+        var width = $('#tavola').width();
+
+        adattaAltezzaTavola();
+        tavola.adattaTasselli(width);
+        aggiornaTavola();
+    }
+}
+
+//funzione che adatta l'altezza dei container della tavola
+function adattaAltezzaTavola() {
+    console.log('on adattaAltezzaTavola');
+
+    var width = $('#tavola').width();
+    $('.heightDim').attr('height', width + 4);
 }
 
 //funzione cha calcola la coordinata X di un tassello in funzione della posizione nella tavola
@@ -98,7 +206,7 @@ function aggiornaTavola() {
     tasselli.selectAll('text')
         .filter(function(d) { return d.modificato == 1; })
         .transition()
-        .duration(100)
+        .duration(200)
         .style('font-size', function(d) { return d.lunghezza * 0.8; })
         .attr('x', function(d) { return d.lunghezza / 2 + calcolaX(d.posizione); })
         .attr('y', function(d) { d.modificato = 0; return d.lunghezza / 2 + calcolaY(d.posizione); })
@@ -110,30 +218,6 @@ function pulisciTavola() {
     console.log('on pulisciTavola');
 
     svg.selectAll('.tassello').data([]).exit().remove();
-}
-
-//funzione che adatta le dimensioni della tavola e dei tasselli
-function adattaTavola() {
-    if(typeof(tavola) === 'undefined') {
-        console.log('on if adattaTavola');
-    }
-    else {
-        console.log('on else adattaTavola');
-
-        var width = $('#tavola').width();
-
-        adattaAltezzaTavola();
-        tavola.adattaTasselli(width);
-        aggiornaTavola();
-    }
-}
-
-//funzione che adatta l'altezza dei container della tavola
-function adattaAltezzaTavola() {
-    console.log('on adattaAltezzaTavola');
-
-    var width = $('#tavola').width();
-    $('.heightDim').attr('height', width + 4);
 }
 
 

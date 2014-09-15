@@ -60,9 +60,9 @@ Tavola.prototype.adattaTasselli = function(distanza) {
     console.log('on adattaTasselli');
 
     var dist = this.distanza = distanza / this.dimensione;
-    var dim = this.dimensione * this.dimensione;
+    var dim = this.dimensione;
 
-    for(var i = 0; i < dim; i++) {
+    for(var i = 0; i < dim * dim; i++) {
         this.tasselli[i].adattaMisure(this.tasselli[i].posizione, dist);
     }
 }

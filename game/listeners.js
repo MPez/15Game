@@ -1,5 +1,6 @@
 $('body').on('click', '#8gameButton', function() {
     $('#mainContent').show();
+    nascondiAlert();
     pulisciTavola();
     adattaAltezzaTavola();
     creaTavola(3,0,0);
@@ -8,6 +9,7 @@ $('body').on('click', '#8gameButton', function() {
 
 $('body').on('click', '#15gameButton', function() {
     $('#mainContent').show();
+    nascondiAlert();
     pulisciTavola();
     adattaAltezzaTavola();
     creaTavola(4,0,0);
@@ -16,6 +18,7 @@ $('body').on('click', '#15gameButton', function() {
 
 $('body').on('click', '#24gameButton', function() {
     $('#mainContent').show();
+    nascondiAlert();
     pulisciTavola();
     adattaAltezzaTavola();
     creaTavola(5,0,0);

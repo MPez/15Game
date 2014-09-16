@@ -32,7 +32,7 @@ function mescolaTavola() {
 }
 
 //funziona che controlla se la configurazione della tavola si può risolvere
-//sfruttando l'invariante della parita' della somma del 15 della tavola
+//sfruttando l'invariante della parità della somma del 15 della tavola
 function verificaTavola() {
     console.log('on verificaTavola');
 
@@ -41,10 +41,10 @@ function verificaTavola() {
     var somma15 = calcolaInversioni() + distanzaVuotoFine;
 
     if(somma15 % 2) {
-        mostraAlert('La tavola non si può risolvere!','alert');
+        mostraAlert('La tavola non è risolvibile!','alert');
     }
     else {
-        mostraAlert('La tavola si può risolvere!', 'success')
+        mostraAlert('La tavola è risolvibile!', 'success')
     }
 }
 

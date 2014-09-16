@@ -1,6 +1,7 @@
 $('body').on('click', '#8gameButton', function() {
     $('#mainContent').show();
-    nascondiAlert();
+    nascondiAlert('risolvibile');
+    nascondiAlert('risolto');
     pulisciTavola();
     adattaAltezzaTavola();
     creaTavola(3,0,0);
@@ -9,7 +10,8 @@ $('body').on('click', '#8gameButton', function() {
 
 $('body').on('click', '#15gameButton', function() {
     $('#mainContent').show();
-    nascondiAlert();
+    nascondiAlert('risolvibile');
+    nascondiAlert('risolto');
     pulisciTavola();
     adattaAltezzaTavola();
     creaTavola(4,0,0);
@@ -18,7 +20,8 @@ $('body').on('click', '#15gameButton', function() {
 
 $('body').on('click', '#24gameButton', function() {
     $('#mainContent').show();
-    nascondiAlert();
+    nascondiAlert('risolvibile');
+    nascondiAlert('risolto');
     pulisciTavola();
     adattaAltezzaTavola();
     creaTavola(5,0,0);
@@ -33,6 +36,21 @@ $('body').on('click', '#riordinaButton', function() {
     riordinaTavola();
 });
 
+$('body').on('click', '#avviaButton', function() {
+    var strategia = $('select option:selected').attr('value');
+    var euristica = $('input[name="euristica"]:checked').val();
+    var cutoff = $('#cutoff-slider').attr('data-slider');
+
+    var risolvibile = $('#risolvibile').hasClass('success');
+    if(risolvibile) {
+        risolviTavola(strategia, euristica, cutoff);
+    }
+});
+
+$('body').on('click', '#mostraButton', function() {
+    mostraSoluzione();
+});
+
 $(window).resize(adattaTavola);
 
 $('#cutoff-slider').change(function () {
@@ -41,8 +59,8 @@ $('#cutoff-slider').change(function () {
 });
 
 $('select').change(function () {
-    var value = $( 'select option:selected' ).attr('value');
-    if(value == 'greedy' || 'A' || 'RBFS') {
+    var value = $('select option:selected').attr('value');
+    if(value == 'greedy' || value == 'A' || value == 'RBFS') {
         $('#euristica').show();
         $('#opzioniIDA').hide();
     }

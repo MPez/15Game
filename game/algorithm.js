@@ -1,6 +1,8 @@
 //funzione che implementa l'algoritmo Fisher–Yates shuffle (Donald E. Knuth)
 //applicato non agli elementi dell'array ma alla loro posizione
 function shuffle(array) {
+    console.log('on shuffle');
+
     var n = array.length;
     for(var i = n - 1; i > 0; i--) {
         var j = Math.floor(Math.random() * i);
@@ -20,29 +22,40 @@ function shuffle(array) {
 
 //funzione che implementa l'agoritmo di ricerca best-first greedy
 function ricercaGrafo(stato, euristica) {
-    var frontiera.push(new Nodo(null, stato));
+    console.log('on ricercaGrafo');
+
+    var esplorati = [];
+    var frontiera = [];
+    frontiera.push(new Nodo(null, stato));
+
 
     while(typeof frontiera[0] != 'undefined' && frontiera.length > 0) {
         var nodo = frontiera.shift();
+
+        console.log(nodo);
         if(testObiettivo(nodo)) {
             return soluzione(nodo);
         }
-        nodo.visitato = 1;
-        frontiera.push(espandi(nodo, euristica));
+        if(isEsplorato(nodo, esplorati) == 0) {
+            esplorati.push(nodo);
+            frontiera = espandi(frontiera, nodo, euristica);
+        }
     }
     return null;
 }
 
 //funzione che controlla se la tavola è stata risolta
 function testObiettivo(nodo) {
+    console.log('on testObiettivo');
+
     var dim = tavola.dimensione;
     var test = 1;
     var i = 0;
 
     for(var r = 0; r < dim && test == 1; r++) {
         for( var c = 0; c < dim && test == 1; c++) {
-            if(nodo.stato.tasselli[i].posizione[0] == r) {
-                if(nodo.stato.tasselli[i].posizione[1] == c) {
+            if(nodo.stato[i].posizione[0] == r) {
+                if(nodo.stato[i].posizione[1] == c) {
                     test = 1;
                 }
                 else {
@@ -60,6 +73,8 @@ function testObiettivo(nodo) {
 
 //funzione che ritorna la sequenza di nodi che portano alla soluzione della tavola
 function soluzione(nodo) {
+    console.log('on soluzione');
+
     var sol = [nodo];
     var padre = nodo.padre;
     while(padre != null) {
@@ -69,15 +84,54 @@ function soluzione(nodo) {
     return sol;
 }
 
+//funzione che cerca se lo stato del nodo oggetto di invocazione è già stato esplorato
+function isEsplorato(nodo, esplorati) {
+    console.log('on isEsplorato');
+
+    var dim = tavola.dimensione;
+    var trovato = 0;
+
+    for(var i = 0; i < esplorati.length && trovato == 0; i++) {
+        var continua = 1;
+
+        for(var j = 0; j < dim * dim && continua == 1; j++) {
+            if(nodo.stato[j].posizione[0] == esplorati[i].stato[j].posizione[0]) {
+                if(nodo.stato[j].posizione[1] == esplorati[i].stato[j].posizione[1]) {
+                    trovato = 1;
+                }
+                else {
+                    continua = 0;
+                    trovato = 0;
+                }
+            }
+            else {
+                continua = 0;
+                trovato = 0;
+            }
+        }
+    }
+    return trovato;
+}
+
 //funzione che espande il nodo dato cercando i figli e li ritorna ordinati per costo di cammino
-function espandi(nodo, euristica) {
+function espandi(frontiera, nodo, euristica) {
+    console.log('on espandi');
+
     var successori = cercaSuccessori(nodo);
 
     for(var i = 0; i < successori.length; i++) {
         successori[i].costoCammino = calcolaEuristica(successori[i].stato, euristica);
+        nodo.aggiungiFiglio(successori[i]);
     }
 
-    successori = successori.sort(function(a,b) {
+    successori.forEach(function(nodo,indice,array) {
+        frontiera.push(nodo);
+    })
+
+    console.log('frontiera', frontiera);
+    //frontiera.push(successori);
+
+    frontiera.sort(function(a,b) {
         if(a.costoCammino < b. costoCammino) {
             return -1;
         }
@@ -86,68 +140,73 @@ function espandi(nodo, euristica) {
         }
         return 0;
     });
-
-    for(var i = 0; i < successori.length; i++) {
-        nodo.aggiungiFiglio(successori[i]);
-    }
-
-    return successori;
+    console.log('frontiera', frontiera);
+    return frontiera;
 }
 
 //funzione che calcola tutte le mosse possibili da un dato stato e ritorna i relativi nodi
 function cercaSuccessori(nodo) {
-    var dim = nodo.stato.dimensione;
-    var vuoto = nodo.stato.tasselli[dim * dim - 1];
+    console.log('on cercaSuccessori');
+
+    var dim = tavola.dimensione;
+    var vuoto = nodo.stato[dim * dim - 1];
     var successori = [];
-    var esaminato = 0;
+    var esaminatoD = 0;
+    var esaminatoS = 0;
 
     if(vuoto.posizione[0] < dim - 1) {
-        successori.push(muovi(nodo, vuoto, 'basso'));
-        if(vuoto.posizione[1] < dim - 1 && esaminato == 0) {
-            successori.push(muovi(nodo, vuoto, 'destra'));
-            esaminato = 1;
+        successori.push(muovi(nodo, 'basso'));
+        if(vuoto.posizione[1] < dim - 1 && esaminatoD == 0) {
+            successori.push(muovi(nodo, 'destra'));
+            esaminatoD = 1;
         }
-        if(vuoto.posizione[1] > 0 && esaminato == 0) {
-            successori.push(muovi(nodo, vuoto, 'sinistra'));
-            esaminato = 1;
+        if(vuoto.posizione[1] > 0 && esaminatoS == 0) {
+            successori.push(muovi(nodo, 'sinistra'));
+            esaminatoS = 1;
         }
     }
 
     if(vuoto.posizione[0] > 0) {
-        successori.push(muovi(nodo, vuoto, 'alto'));
-        if(vuoto.posizione[1] > 0 && esaminato == 0) {
-            successori.push(muovi(nodo, vuoto, 'sinistra'));
-            esaminato = 1;
+        successori.push(muovi(nodo, 'alto'));
+        if(vuoto.posizione[1] > 0 && esaminatoS == 0) {
+            successori.push(muovi(nodo, 'sinistra'));
+            esaminatoS = 1;
         }
-        if(vuoto.posizione[1] < dim - 1 && esaminato == 0) {
-            successori.push(muovi(nodo, vuoto, 'destra'));
-            esaminato = 1;
+        if(vuoto.posizione[1] < dim - 1 && esaminatoD == 0) {
+            successori.push(muovi(nodo, 'destra'));
+            esaminatoD = 1;
         }
     }
-
+    console.log('successori', successori);
     return successori;
 }
 
 //funzione che ritorna un nodo che rappresenta una mossa verso l'alto
-function muovi(nodo, vuoto, direzione) {
+function muovi(nodo, direzione) {
+    console.log('on muovi ' + direzione);
+
+    var nuovoStato = copiaProfonda(nodo.stato);
+
+    var dim = tavola.dimensione;
+    var vuoto = nuovoStato[dim * dim - 1];
     var r = vuoto.posizione[0];
     var c = vuoto.posizione[1];
-    var nuovoStato = nodo.stato.slice();
+
     var tassello;
 
     if(direzione == 'alto') {
-        var tassello = nuovoStato.getTassello([r - 1, c]);
+        tassello = ottieniTassello(nuovoStato, [r - 1, c]);
     }
     else {
         if(direzione == 'basso') {
-            var tassello = nuovoStato.getTassello([r + 1, c]);
+            tassello = ottieniTassello(nuovoStato, [r + 1, c]);
         }
         else {
             if(direzione == 'destra') {
-                var tassello = nuovoStato.getTassello([r, c + 1]);
+                tassello = ottieniTassello(nuovoStato, [r, c + 1]);
             }
             else {
-                var tassello = nuovoStato.getTassello([r, c - 1]);
+                tassello = ottieniTassello(nuovoStato, [r, c - 1]);
             }
         }
     }
@@ -158,18 +217,64 @@ function muovi(nodo, vuoto, direzione) {
     return nuovoNodo;
 }
 
+//funzione che esegue una copia profonda dello stato
+function copiaProfonda(stato) {
+    console.log('on copiaProfonda');
+
+    var nuovoStato = [];
+    var dim = tavola.dimensione;
+
+    var id = 0 ;
+    var posizione = [];
+    var lunghezza = 0;
+
+    for(var i = 0; i < dim * dim; i++) {
+        id = stato[i].id;
+        posizione = stato[i].posizione.slice();
+        lunghezza = stato[i].lunghezza;
+        nuovoStato[i] = new Tassello(id, posizione, lunghezza);
+    }
+    return nuovoStato;
+}
+
+//funzione che ritorna il tassello con la posizione data
+function ottieniTassello(stato, posizione) {
+    console.log('on ottieniTassello');
+
+    var dim = tavola.dimensione;
+    var trovato = 0;
+    var tassello = null;
+
+    for(var i = 0; i < dim * dim && trovato == 0; i++) {
+        if(posizione[0] == stato[i].posizione[0]) {
+            if(posizione[1] == stato[i].posizione[1]) {
+                trovato = 1;
+                tassello = stato[i];
+            }
+        }
+    }
+    return tassello;
+}
+
 //funzione che scambia la posizione dei due tasselli dati
 function scambiaPosizione(tassello, vuoto) {
+    console.log('on scambiaPosizione');
+
     r = tassello.posizione[0];
     c = tassello.posizione[1];
     tassello.posizione[0] = vuoto.posizione[0];
     tassello.posizione[1] = vuoto.posizione[1];
     vuoto.posizione[0] = r;
     vuoto.posizione[1] = c;
+
+    tassello.modificato = 1;
+    vuoto.modificato = 1;
 }
 
 //funzione che chiama la funzione euristica da applicare scelta dall'utente
 function calcolaEuristica(stato, euristica) {
+    console.log('on calcolaEuristica');
+
     if(euristica == 'tasselli-sbagliati') {
         return calcolaTasselliSbagliati(stato);
     }
@@ -180,17 +285,19 @@ function calcolaEuristica(stato, euristica) {
 
 //funzione che calcola il numero di tasselli in posizione errata sulla configurazione della tavola data
 function calcolaTasselliSbagliati(stato) {
-    var dim = stato.dimensione;
+    console.log('on calcolaTasselliSbagliati');
+
+    var dim = tavola.dimensione;
     var i = 0;
     var numero = 0;
 
     for(var r = 0; r < dim; r++) {
         for( var c = 0; c < dim; c++) {
-            if(stato.tasselli[i].posizione[0] != r) {
+            if(stato[i].posizione[0] != r) {
                 numero++;
             }
             else {
-                if(stato.tasselli[i].posizione[1] != c) {
+                if(stato[i].posizione[1] != c) {
                     numero++;
                 }
             }
@@ -202,13 +309,15 @@ function calcolaTasselliSbagliati(stato) {
 
 //funzione che calcola la distanza Manhattan totale della configurazione della tavola data
 function calcolaDistanzaManhattanTavola(stato) {
-    var dim = stato.dimensione;
+    console.log('on calcolaDistanzaManhattanTavola');
+
+    var dim = tavola.dimensione;
     var distanza = 0;
     var i = 0;
 
     for(var r = 0; r < dim; r++) {
         for(var c = 0; c < dim; c++) {
-            distanza = calcolaDistanzaManhattan(stato.tasselli[i], [r,c]);
+            distanza += calcolaDistanzaManhattan(stato[i].posizione, [r,c]);
             i++;
         }
     }

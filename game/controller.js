@@ -1,10 +1,14 @@
 function start() {
     console.log('on start');
-    nascondiAlert();
+    nascondiAlert('risolvibile');
+    nascondiAlert('risolto');
 }
 
 //oggetto globale tavola
 var tavola;
+
+//array di nodi che rappresentano le azioni che risolvono la tavola
+var soluzione;
 
 //oggetto globale svg dove disegnare la tavola
 var svg = d3.select('#tavola');
@@ -22,9 +26,9 @@ function creaTavola(num, x, y) {
 
 //funzione che genera una partita casuale
 function mescolaTavola() {
-    console.log('on shuffle');
+    console.log('on mescolaTavola');
 
-    nascondiAlert();
+    nascondiAlert('risolvibile');
 
     tavola.tasselli = shuffle(tavola.tasselli);
     aggiornaTavola();
@@ -41,10 +45,10 @@ function verificaTavola() {
     var somma15 = calcolaInversioni() + distanzaVuotoFine;
 
     if(somma15 % 2) {
-        mostraAlert('La tavola non è risolvibile!','alert');
+        mostraAlert('risolvibile', 'La tavola non è risolvibile!','alert');
     }
     else {
-        mostraAlert('La tavola è risolvibile!', 'success')
+        mostraAlert('risolvibile', 'La tavola è risolvibile!', 'success');
     }
 }
 
@@ -98,16 +102,20 @@ function ordinaTasselli() {
 }
 
 //funzione che aggiorna l'alert con testo e classe corrette e lo mostra
-function mostraAlert(testo, classe) {
-    $('#risolvibile').text(testo);
-    $('#risolvibile').addClass(classe);
-    $('#risolvibile').show();
+function mostraAlert(alert, testo, classe) {
+    console.log('on mostraAlert');
+
+    $('#' + alert).text(testo);
+    $('#' + alert).addClass(classe);
+    $('#' + alert).show();
 }
 
 //funzione che nasconde l'alert
-function nascondiAlert() {
-    $('#risolvibile').removeClass('alert' || 'success');
-    $('#risolvibile').hide();
+function nascondiAlert(alert) {
+    console.log('on nascondiAlert');
+
+    $('#' + alert).removeClass('alert' || 'success');
+    $('#' + alert).hide();
 }
 
 //funzione che sistema i tasselli nella posizione iniziale
@@ -140,7 +148,7 @@ function adattaAltezzaTavola() {
     console.log('on adattaAltezzaTavola');
 
     var width = $('#tavola').width();
-    $('.heightDim').attr('height', width + 4);
+    $('.heightDim').attr('height', width + 8);
 }
 
 //funzione cha calcola la coordinata X di un tassello in funzione della posizione nella tavola
@@ -168,7 +176,9 @@ function disegnaTavola() {
         .attr('width', function(d) {return d.lunghezza; })
         .attr('height', function(d) {return d.lunghezza; })
         .attr('x', function(d) { return calcolaX(d.posizione); })
-        .attr('y', function(d) { return calcolaY(d.posizione); });
+        .attr('y', function(d) { return calcolaY(d.posizione); })
+        .attr('rx', function(d) {return d.lunghezza / 10; })
+        .attr('ry', function(d) {return d.lunghezza / 10; });
 
     tasselliEnter.append('text')
         .text(function(d) { return d.id; })
@@ -218,6 +228,25 @@ function pulisciTavola() {
     console.log('on pulisciTavola');
 
     svg.selectAll('.tassello').data([]).exit().remove();
+}
+
+//funzione che avvia il solutore della tavola
+function risolviTavola(strategia, euristica, cutoff) {
+    console.log('on risolviTavola');
+
+    var soluzione = ricercaGrafo(tavola.tasselli.slice(), euristica);
+}
+
+//funzione che mostra le azioni che portano alla soluzione della tavola
+function mostraSoluzione() {
+    console.log('on mostraSoluzione');
+
+    if(soluzione != 'null') {
+        for(var i = 0; i < soluzione.length; i++) {
+            tavola = soluzione[i].stato;
+            window.setTimeout(aggiornaTavola(), 400);
+        }
+    }
 }
 
 

@@ -70,13 +70,13 @@
                         </fieldset>
                     </div>
 
-                    <div class='small-12 columns nascosto' id='euristica'>
+                    <div class='small-12 columns' id='euristica'>
                         <fieldset>
                             <legend>Seleziona euristica</legend>
                             <div class='row'>
                                 <div class='small-4 columns'>
                                     <div class='switch radius'>
-                                        <input type='radio' name='euristica-A' value='tasselli-sbagliati' id='tasselli-sbagliati'>
+                                        <input type='radio' name='euristica' value='tasselli-sbagliati' id='tasselli-sbagliati'>
                                         <label for='tasselli-sbagliati'>N&deg; tasselli sbagliati</label>
                                     </div>
                                 </div>
@@ -87,7 +87,7 @@
                             <div class='row'>
                                 <div class='small-4 columns'>
                                     <div class='switch radius'>
-                                        <input type='radio' name='euristica-A' value='distanza-manhattan' id='distanza-manhattan' checked>
+                                        <input type='radio' name='euristica' value='distanza-manhattan' id='distanza-manhattan' checked>
                                         <label for='distanza-manhattan'>Distanza Manhattan</label>
                                     </div>
                                 </div>
@@ -129,7 +129,17 @@
                     <div class="small-12 columns" id='inizia-partita'>
                         <fieldset>
                             <legend>Solutore</legend>
-                            <button id='startButton' class='button radius'>Avvia</button>
+                            <div class='row'>
+                                <div class="small-6 columns">
+                                    <button id='avviaButton' class='button radius'>Avvia</button>
+                                </div>
+                                <div class="small-6 columns">
+                                    <button id='mostraButton' class='button radius right'>Mostra</button>
+                                </div>
+                            </div>
+                            <div id='risolto' data-alert class="alert-box radius">
+                                <a href="#" class="close">&times;</a>
+                            </div>
                         </fieldset>
                     </div>
                 </div>

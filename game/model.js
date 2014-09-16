@@ -67,37 +67,17 @@ Tavola.prototype.adattaTasselli = function(distanza) {
     }
 }
 
-//funzione che ritorna il tassello con la posizione data
-Tavola.prototype.getTassello(posizione) {
-    console.log('on getTassello');
-
-    var dim = this.dimensione;
-    var trovato = 0;
-    var tassello = null;
-
-    for(var i = 0; i < dim * dim && trovato == 0; i++) {
-        if(posizone[0] == this.tasselli[i].posizione[0]) {
-            if(posizione[1] == this.taselli[i].posizione[1]) {
-                trovato = 1;
-                tassello = this.tasselli[i];
-            }
-        }
-    }
-    return tassello;
-}
-
 //costruttore oggetto nodo
 function Nodo(nodoPadre, stato) {
     this.padre = nodoPadre;
     this.primoFiglio = null;
     this.ultimoFiglio = null;
-    this.predenteFratello = null;
+    this.precedenteFratello = null;
     this.prossimoFratello = null;
 
     this.profondità = 0;
     this.costoCammino = 0;
-    this.stato = []; //copia della tavola
-    this.visitato = 0;
+    this.stato = stato;
 }
 
 //funzione che aggiunge un figlio al nodo corrente
@@ -105,7 +85,7 @@ Nodo.prototype.aggiungiFiglio = function(nodoFiglio) {
     console.log('on aggiungiFiglio');
 
     nodoFiglio.padre = this;
-    nodoFiglio.predenteFratello = this.ultimoFiglio;
+    nodoFiglio.precedenteFratello = this.ultimoFiglio;
     nodoFiglio.profondità = this.profondità + 1;
 
     if(this.ultimoFiglio != null) {

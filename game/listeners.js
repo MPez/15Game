@@ -40,14 +40,19 @@ $('body').on('click', '#riordinaButton', function() {
 });
 
 $('body').on('click', '#avviaButton', function() {
+    $('#risolviModal').foundation('reveal', 'open');
+
     var strategia = $('select option:selected').attr('value');
     var euristica = $('input[name="euristica"]:checked').val();
     var cutoff = $('#cutoff-slider').attr('data-slider');
 
     var risolvibile = $('#risolvibile').hasClass('success');
-    if(risolvibile) {
-        risolviTavola(strategia, euristica, cutoff);
-    }
+
+    window.setTimeout(function() {
+        if(risolvibile) {
+            risolviTavola(strategia, euristica, cutoff)
+        }
+    } , 500);
 });
 
 $('body').on('click', '#mostraButton', function() {

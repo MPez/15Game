@@ -117,20 +117,17 @@ function pulisciTavola() {
 function risolviTavola(strategia, euristica, cutoff) {
     console.log('on risolviTavola');
 
-    $('#risolviModal').foundation('reveal', 'open');
-
-    soluzione = ricercaGrafo(tavola.tasselli.slice(), euristica);
+    soluzione = ricercaGrafo(tavola.tasselli.slice(), strategia, euristica, cutoff);
 
     mostraAlert('risolto', 'È stata trovata una soluzione', 'success');
-
     $('#risolviModal').foundation('reveal', 'close');
-
     mostraModal();
+    nascondiAlert('risolvibile');
 }
 
 //funzione che mostra la finestra modale con le statistiche della soluzione trovata
 function mostraModal() {
-    $('#durata').text(durata);
+    $('#durata').text(durata / 1000);
     $('#lunghezza').text(soluzione.length);
     $('#numeroNodi').text(nodiVisitati);
 

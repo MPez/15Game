@@ -88,7 +88,9 @@ function Nodo(nodoPadre, stato) {
     this.prossimoFratello = null;
 
     this.profondità = 0;
+    this.costoStimato = 0;
     this.costoCammino = 0;
+    this.costoStrategia = 0;
     this.stato = stato;
 }
 

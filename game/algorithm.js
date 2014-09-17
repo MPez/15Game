@@ -28,15 +28,14 @@ function shuffle(array) {
 }
 
 //funzione che implementa l'agoritmo di ricerca best-first greedy
-function ricercaGrafo(stato, euristica) {
-    console.log('on ricercaGrafo');
+function ricercaGrafo(stato, strategia, euristica, cutoff) {
+    console.log('on ricercaGrafo', strategia, euristica, cutoff);
 
     tempoInizio = Date.now();
-
     var esplorati = [];
     var frontiera = [];
-    frontiera.push(new Nodo(null, stato));
 
+    frontiera.push(new Nodo(null, stato));
 
     while(typeof frontiera[0] != 'undefined' && frontiera.length > 0) {
         var nodo = frontiera.shift();
@@ -47,7 +46,7 @@ function ricercaGrafo(stato, euristica) {
         }
         if(isEsplorato(nodo, esplorati) == 0) {
             esplorati.push(nodo);
-            frontiera = espandi(frontiera, nodo, euristica);
+            frontiera = espandi(frontiera, nodo, strategia, euristica, cutoff);
             nodiVisitati++;
         }
     }
@@ -124,14 +123,14 @@ function isEsplorato(nodo, esplorati) {
 }
 
 //funzione che espande il nodo dato cercando i figli e li ritorna ordinati per costo di cammino
-function espandi(frontiera, nodo, euristica) {
+function espandi(frontiera, nodo, strategia, euristica, cutoff) {
     console.log('on espandi');
 
     var successori = cercaSuccessori(nodo);
 
     for(var i = 0; i < successori.length; i++) {
-        successori[i].costoCammino = calcolaEuristica(successori[i].stato, euristica);
         nodo.aggiungiFiglio(successori[i]);
+        successori[i].costoStrategia = calcolaCostoStrategia(strategia, successori[i], euristica);
     }
 
     successori.forEach(function(nodo,indice,array) {
@@ -139,10 +138,10 @@ function espandi(frontiera, nodo, euristica) {
     })
 
     frontiera.sort(function(a,b) {
-        if(a.costoCammino < b. costoCammino) {
+        if(a.costoStrategia < b. costoStrategia) {
             return -1;
         }
-        if(a.costoCammino > b.costoCammino) {
+        if(a.costoStrategia > b.costoStrategia) {
             return 1;
         }
         return 0;
@@ -276,9 +275,40 @@ function scambiaPosizione(tassello, vuoto) {
     vuoto.modificato = 1;
 }
 
+//funzione cha calcola il costo del cammino del nodo in esame in base alla strategia di ricerca scelta
+function calcolaCostoStrategia(strategia, nodo, euristica) {
+    console.log('on calcolaCostoCammino', strategia, euristica);
+
+    var costo = 0;
+
+    switch(strategia) {
+        case 'greedy':
+            costo = nodo.costoStimato = calcolaEuristica(nodo.stato, euristica);
+            break;
+        case 'A':
+            nodo.costoStimato = calcolaEuristica(nodo.stato, euristica);
+            if(nodo.padre.costoStimato == 0) {
+                nodo.padre.costoStimato = calcolaEuristica(nodo.padre.stato, euristica);
+            }
+            nodo.costoCammino = nodo.padre.costoCammino + Math.abs(nodo.padre.costoStimato - nodo.costoStimato);
+            costo = nodo.costoCammino + nodo.costoStimato;
+            break;
+        case 'IDA':
+            break;
+        case 'RBFS':
+            break;
+        case 'hill-climbing':
+            break;
+        case 'annealing':
+            break;
+    }
+
+    return costo;
+}
+
 //funzione che chiama la funzione euristica da applicare scelta dall'utente
 function calcolaEuristica(stato, euristica) {
-    console.log('on calcolaEuristica');
+    console.log('on calcolaEuristica', euristica);
 
     if(euristica == 'tasselli-sbagliati') {
         return calcolaTasselliSbagliati(stato);

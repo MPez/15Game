@@ -32,9 +32,8 @@ function ricercaGrafo(stato, euristica) {
     while(typeof frontiera[0] != 'undefined' && frontiera.length > 0) {
         var nodo = frontiera.shift();
 
-        console.log(nodo);
         if(testObiettivo(nodo)) {
-            return soluzione(nodo);
+            return calcolaSoluzione(nodo);
         }
         if(isEsplorato(nodo, esplorati) == 0) {
             esplorati.push(nodo);
@@ -72,7 +71,7 @@ function testObiettivo(nodo) {
 }
 
 //funzione che ritorna la sequenza di nodi che portano alla soluzione della tavola
-function soluzione(nodo) {
+function calcolaSoluzione(nodo) {
     console.log('on soluzione');
 
     var sol = [nodo];
@@ -128,9 +127,6 @@ function espandi(frontiera, nodo, euristica) {
         frontiera.push(nodo);
     })
 
-    console.log('frontiera', frontiera);
-    //frontiera.push(successori);
-
     frontiera.sort(function(a,b) {
         if(a.costoCammino < b. costoCammino) {
             return -1;
@@ -140,7 +136,6 @@ function espandi(frontiera, nodo, euristica) {
         }
         return 0;
     });
-    console.log('frontiera', frontiera);
     return frontiera;
 }
 
@@ -177,7 +172,6 @@ function cercaSuccessori(nodo) {
             esaminatoD = 1;
         }
     }
-    console.log('successori', successori);
     return successori;
 }
 

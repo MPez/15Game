@@ -207,11 +207,13 @@ function aggiornaTavola() {
     tasselli.selectAll('rect')
         .filter(function(d) { return d.modificato == 1; })
         .transition()
-        .duration(100)
+        .duration(200)
         .attr('width', function(d) {return d.lunghezza; })
         .attr('height', function(d) {return d.lunghezza; })
         .attr('x', function(d) { return calcolaX(d.posizione); })
-        .attr('y', function(d) { return calcolaY(d.posizione); });
+        .attr('y', function(d) { return calcolaY(d.posizione); })
+        .attr('rx', function(d) {return d.lunghezza / 10; })
+        .attr('ry', function(d) {return d.lunghezza / 10; });
 
     tasselli.selectAll('text')
         .filter(function(d) { return d.modificato == 1; })
@@ -234,18 +236,17 @@ function pulisciTavola() {
 function risolviTavola(strategia, euristica, cutoff) {
     console.log('on risolviTavola');
 
-    var soluzione = ricercaGrafo(tavola.tasselli.slice(), euristica);
+    soluzione = ricercaGrafo(tavola.tasselli.slice(), euristica);
+    mostraAlert('risolto', 'È stata trovata una soluzione', 'success');
 }
 
 //funzione che mostra le azioni che portano alla soluzione della tavola
 function mostraSoluzione() {
     console.log('on mostraSoluzione');
 
-    if(soluzione != 'null') {
-        for(var i = 0; i < soluzione.length; i++) {
-            tavola = soluzione[i].stato;
-            window.setTimeout(aggiornaTavola(), 400);
-        }
+    while(soluzione != 'null' && soluzione.length > 0) {
+        tavola.tasselli = soluzione.pop().stato.slice();
+        window.setTimeout(aggiornaTavola(), 1000);
     }
 }
 

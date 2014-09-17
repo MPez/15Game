@@ -68,20 +68,30 @@ $('#cutoff-slider').change(function () {
 
 $('select').change(function () {
     var value = $('select option:selected').attr('value');
-    if(value == 'greedy' || value == 'A' || value == 'RBFS') {
-        $('#euristica').show();
-        $('#opzioniIDA').hide();
-    }
-    else {
-        if(value == 'IDA') {
+
+    switch(value) {
+        case 'greedy':
+            $('#euristica').show();
+            $('#opzioniIDA').hide();
+            break;
+        case 'A':
+            $('#euristica').show();
+            $('#opzioniIDA').hide();
+            break;
+        case 'IDA':
             $('#euristica').show();
             $('#opzioniIDA').show();
             $('#opzioniIDA').foundation('slider', 'set_value', 0);
-        }
-        else {
+            $('#nonImplementatoModal').foundation('reveal', 'open');
+            break;
+        case 'RBFS':
+            $('#euristica').show();
+            $('#opzioniIDA').hide();
+            $('#nonImplementatoModal').foundation('reveal', 'open');
+            break;
+        default:
             $('#opzioniIDA').hide();
             $('#euristica').hide();
-        }
     }
 });
 

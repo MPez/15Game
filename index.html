@@ -64,8 +64,6 @@
                                 <option value='A'>Ricerca A*</option>
                                 <option value='IDA'>Iterative Deepening A*</option>
                                 <option value='RBFS'>Recursive Best First Search</option>
-                                <option value='hill-climbing'>Hill-climbing</option>
-                                <option value='annealing'>Simulated annealing</option>
                             </select>
                         </fieldset>
                     </div>
@@ -159,6 +157,12 @@
                 <li>Lunghezza della soluzione: <span id='lunghezza'></span> azioni</li>
                 <li>Numero di nodi visitati: <span id='numeroNodi'></span></li>
             </ul>
+            <a class="close-reveal-modal">&#215;</a>
+        </div>
+
+        <div id="nonImplementatoModal" class="reveal-modal" data-reveal>
+            <h2>L'algoritmo non è ancora stato implementato!</h2>
+            <p>Gli algoritmi funzionanti sono "Ricerca best-first greedy" e "Ricerca A*"</p>
             <a class="close-reveal-modal">&#215;</a>
         </div>
 

@@ -2,6 +2,7 @@ $('body').on('click', '#8gameButton', function() {
     $('#mainContent').show();
     nascondiAlert('risolvibile');
     nascondiAlert('risolto');
+    window.clearInterval(intervallo);
     pulisciTavola();
     adattaAltezzaTavola();
     creaTavola(3,0,0);
@@ -12,6 +13,7 @@ $('body').on('click', '#15gameButton', function() {
     $('#mainContent').show();
     nascondiAlert('risolvibile');
     nascondiAlert('risolto');
+    window.clearInterval(intervallo);
     pulisciTavola();
     adattaAltezzaTavola();
     creaTavola(4,0,0);
@@ -22,6 +24,7 @@ $('body').on('click', '#24gameButton', function() {
     $('#mainContent').show();
     nascondiAlert('risolvibile');
     nascondiAlert('risolto');
+    window.clearInterval(intervallo);
     pulisciTavola();
     adattaAltezzaTavola();
     creaTavola(5,0,0);
@@ -76,3 +79,4 @@ $('select').change(function () {
         }
     }
 });
+

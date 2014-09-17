@@ -38,6 +38,18 @@ Tavola.prototype.creaTasselli = function() {
     }
 }
 
+//funzione che imposta un nuovo stato della tavola
+Tavola.prototype.setStato = function(stato) {
+    console.log('on setTasselli');
+
+    var dim = this.dimensione;
+
+    for(var i = 0; i < dim * dim; i++) {
+        this.tasselli[i].posizione = stato[i].posizione.slice();
+        this.tasselli[i].modificato = stato[i].modificato;
+    }
+}
+
 //funzione che adatta la posizione e la dimensione dei tasselli e li riordina
 Tavola.prototype.riordinaTasselli = function() {
     console.log('on riordinaTasselli');

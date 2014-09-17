@@ -1,3 +1,10 @@
+//variabili globali che indicano il tempo di inizio e la durata della ricerca della soluzione
+var tempoInizio = 0;
+var durata = 0;
+
+//variabile che indica quanti nodi sono stati visitati per trovare la soluzione
+var nodiVisitati = 0;
+
 //funzione che implementa l'algoritmo Fisher–Yates shuffle (Donald E. Knuth)
 //applicato non agli elementi dell'array ma alla loro posizione
 function shuffle(array) {
@@ -24,6 +31,8 @@ function shuffle(array) {
 function ricercaGrafo(stato, euristica) {
     console.log('on ricercaGrafo');
 
+    tempoInizio = Date.now();
+
     var esplorati = [];
     var frontiera = [];
     frontiera.push(new Nodo(null, stato));
@@ -33,11 +42,13 @@ function ricercaGrafo(stato, euristica) {
         var nodo = frontiera.shift();
 
         if(testObiettivo(nodo)) {
+            durata = Date.now() - tempoInizio;
             return calcolaSoluzione(nodo);
         }
         if(isEsplorato(nodo, esplorati) == 0) {
             esplorati.push(nodo);
             frontiera = espandi(frontiera, nodo, euristica);
+            nodiVisitati++;
         }
     }
     return null;

@@ -13,6 +13,9 @@ var soluzione;
 //oggetto globale svg dove disegnare la tavola
 var svg = d3.select('#tavola');
 
+//parametro globale usato per impostare intervallo di visualizzazione della soluzione
+var intervallo = 0;
+
 //funzione che crea l'oggetto tavola e i relativi taselli
 function creaTavola(num, x, y) {
     console.log('on creaTavola');
@@ -29,6 +32,8 @@ function mescolaTavola() {
     console.log('on mescolaTavola');
 
     nascondiAlert('risolvibile');
+    nascondiAlert('risolto');
+    window.clearInterval(intervallo);
 
     tavola.tasselli = shuffle(tavola.tasselli);
     aggiornaTavola();
@@ -101,6 +106,49 @@ function ordinaTasselli() {
     return T;
 }
 
+//funzione che elimina la tavola precedente
+function pulisciTavola() {
+    console.log('on pulisciTavola');
+
+    svg.selectAll('.tassello').data([]).exit().remove();
+}
+
+//funzione che avvia il solutore della tavola
+function risolviTavola(strategia, euristica, cutoff) {
+    console.log('on risolviTavola');
+
+    $('#risolviModal').foundation('reveal', 'open');
+
+    soluzione = ricercaGrafo(tavola.tasselli.slice(), euristica);
+
+    mostraAlert('risolto', 'È stata trovata una soluzione', 'success');
+
+    $('#risolviModal').foundation('reveal', 'close');
+
+    mostraModal();
+}
+
+//funzione che mostra la finestra modale con le statistiche della soluzione trovata
+function mostraModal() {
+    $('#durata').text(durata);
+    $('#lunghezza').text(soluzione.length);
+    $('#numeroNodi').text(nodiVisitati);
+
+    $('#risoltoModal').foundation('reveal','open');
+}
+
+//funzione che mostra le azioni che portano alla soluzione della tavola
+function mostraSoluzione() {
+    console.log('on mostraSoluzione');
+
+    intervallo = window.setInterval(function() {
+        if(soluzione != 'null' && soluzione.length > 0) {
+            tavola.setStato(soluzione.pop().stato);
+            aggiornaTavola();
+        }
+    }, 400);
+}
+
 //funzione che aggiorna l'alert con testo e classe corrette e lo mostra
 function mostraAlert(alert, testo, classe) {
     console.log('on mostraAlert');
@@ -124,7 +172,9 @@ function riordinaTavola() {
 
     tavola.riordinaTasselli();
     aggiornaTavola();
-    nascondiAlert();
+    nascondiAlert('risolvibile');
+    nascondiAlert('risolto');
+    window.clearInterval(intervallo);
 }
 
 //funzione che adatta le dimensioni della tavola e dei tasselli
@@ -150,105 +200,4 @@ function adattaAltezzaTavola() {
     var width = $('#tavola').width();
     $('.heightDim').attr('height', width + 8);
 }
-
-//funzione cha calcola la coordinata X di un tassello in funzione della posizione nella tavola
-function calcolaX(pos) {
-    return pos[1] * tavola.distanza;
-}
-//funzione cha calcola la coordinata Y di un tassello in funzione della posizione nella tavola
-function calcolaY(pos) {
-    return pos[0] * tavola.distanza;
-}
-
-//funzione che disegna la tavola
-function disegnaTavola() {
-    console.log('on disegnaTavola');
-
-    //data join
-    var tasselli = svg.selectAll('.tassello')
-        .data(tavola.tasselli, function(d) { return d.id; });
-
-    //enter selection
-    var tasselliEnter = tasselli.enter().append('g')
-        .attr('class', 'tassello');
-
-    tasselliEnter.append('rect')
-        .attr('width', function(d) {return d.lunghezza; })
-        .attr('height', function(d) {return d.lunghezza; })
-        .attr('x', function(d) { return calcolaX(d.posizione); })
-        .attr('y', function(d) { return calcolaY(d.posizione); })
-        .attr('rx', function(d) {return d.lunghezza / 10; })
-        .attr('ry', function(d) {return d.lunghezza / 10; });
-
-    tasselliEnter.append('text')
-        .text(function(d) { return d.id; })
-        .style('text-anchor', 'middle')
-        .style('font-size', function(d) { return d.lunghezza * 0.8; })
-        .attr('x', function(d) { return d.lunghezza / 2 + calcolaX(d.posizione); })
-        .attr('y', function(d) { return d.lunghezza / 2 + calcolaY(d.posizione); })
-        .attr('dy', '.35em');
-
-    tasselliEnter.filter(function(d, i) { return i & 1 })
-        .style('fill', '#333');
-
-    tasselliEnter.filter(function(d) { return d.id == Math.pow(tavola.dimensione, 2);  })
-        .style('fill', '#FFF');
-}
-
-//funzione che aggiorna la tavola ad uno nuovo stato
-function aggiornaTavola() {
-    console.log('on aggiornaTavola');
-
-    //data join
-    var tasselli = svg.selectAll('.tassello')
-        .data(tavola.tasselli, function(d) { return d.id; });
-
-    //update selection
-    tasselli.selectAll('rect')
-        .filter(function(d) { return d.modificato == 1; })
-        .transition()
-        .duration(200)
-        .attr('width', function(d) {return d.lunghezza; })
-        .attr('height', function(d) {return d.lunghezza; })
-        .attr('x', function(d) { return calcolaX(d.posizione); })
-        .attr('y', function(d) { return calcolaY(d.posizione); })
-        .attr('rx', function(d) {return d.lunghezza / 10; })
-        .attr('ry', function(d) {return d.lunghezza / 10; });
-
-    tasselli.selectAll('text')
-        .filter(function(d) { return d.modificato == 1; })
-        .transition()
-        .duration(200)
-        .style('font-size', function(d) { return d.lunghezza * 0.8; })
-        .attr('x', function(d) { return d.lunghezza / 2 + calcolaX(d.posizione); })
-        .attr('y', function(d) { d.modificato = 0; return d.lunghezza / 2 + calcolaY(d.posizione); })
-        .attr('dy', '.35em');
-}
-
-//funzione che elimina la tavola precedente
-function pulisciTavola() {
-    console.log('on pulisciTavola');
-
-    svg.selectAll('.tassello').data([]).exit().remove();
-}
-
-//funzione che avvia il solutore della tavola
-function risolviTavola(strategia, euristica, cutoff) {
-    console.log('on risolviTavola');
-
-    soluzione = ricercaGrafo(tavola.tasselli.slice(), euristica);
-    mostraAlert('risolto', 'È stata trovata una soluzione', 'success');
-}
-
-//funzione che mostra le azioni che portano alla soluzione della tavola
-function mostraSoluzione() {
-    console.log('on mostraSoluzione');
-
-    while(soluzione != 'null' && soluzione.length > 0) {
-        tavola.tasselli = soluzione.pop().stato.slice();
-        window.setTimeout(aggiornaTavola(), 1000);
-    }
-}
-
-
 

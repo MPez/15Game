@@ -112,35 +112,3 @@ Nodo.prototype.aggiungiFiglio = function(nodoFiglio) {
         this.primoFiglio = nodoFiglio;
     }
 }
-
-//funzione che ritorna i figli del nodo dato
-Nodo.prototype.getFigli = function(nodo) {
-    console.log('on getFigli');
-
-    var figli = [];
-    var figlio = nodo.primoFiglio;
-
-    while(figlio != null) {
-        figli.push(figlio);
-        figlio = figlio.prossimoFratello;
-    }
-
-    return figli;
-}
-
-//funzione che ritorna il figlio con il costo di cammino minore
-Nodo.prototype.cercaFiglioMigliore = function(nodo) {
-    console.log('cercaFiglioMigliore');
-
-    var figlio = nodo.primoFiglio;
-    var costo = 0;
-
-    while(figlio != null) {
-        if(costo > figlio.costoCammino) {
-            costo = figlio.costoCammino;
-        }
-        figlio = figlio.prossimoFratello;
-    }
-
-    return costo;
-}

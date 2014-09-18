@@ -51,9 +51,11 @@ function verificaTavola() {
 
     if(somma15 % 2) {
         mostraAlert('risolvibile', 'La tavola non è risolvibile!','alert');
+        return 0;
     }
     else {
         mostraAlert('risolvibile', 'La tavola è risolvibile!', 'success');
+        return 1;
     }
 }
 
@@ -130,6 +132,7 @@ function mostraModal() {
     $('#durata').text(durata / 1000);
     $('#lunghezza').text(soluzione.length);
     $('#numeroNodi').text(nodiVisitati);
+    $('#profondità').text(soluzione[0].profondità);
 
     $('#risoltoModal').foundation('reveal','open');
 }
@@ -197,4 +200,3 @@ function adattaAltezzaTavola() {
     var width = $('#tavola').width();
     $('.heightDim').attr('height', width + 8);
 }
-

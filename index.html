@@ -26,11 +26,11 @@
                     <!-- Right Nav Section -->
                     <ul class='right'>
                         <li class='has-dropdown'>
-                            <a href='javascript:void(0)'>Nuova partita</a>
+                            <a href='#'>Nuova partita</a>
                             <ul class='dropdown'>
-                                <li><a href='javascript:void(0)' id='8gameButton'>8 game</a></li>
-                                <li><a href='javascript:void(0)' id='15gameButton'>15 game</a></li>
-                                <li><a href='javascript:void(0)' id='24gameButton'>24 game</a></li>
+                                <li><a href='#' id='8gameButton'>8 game</a></li>
+                                <li><a href='#' id='15gameButton'>15 game</a></li>
+                                <li><a href='#' id='24gameButton'>24 game</a></li>
                             </ul>
                         </li>
                         <li><a href='#'>Statistiche</a></li>
@@ -156,6 +156,7 @@
                 <li>Tavola risolta in: <span id='durata'></span> s</li>
                 <li>Lunghezza della soluzione: <span id='lunghezza'></span> azioni</li>
                 <li>Numero di nodi visitati: <span id='numeroNodi'></span></li>
+                <li>Profondità della soluzione: <span id='profondità'></span></li>
             </ul>
             <a class="close-reveal-modal">&#215;</a>
         </div>
@@ -178,6 +179,7 @@
         <script src='game/controller.js'></script>
         <script src="game/view.js"></script>
         <script src='game/listeners.js'></script>
+        <script src="game/test.js"></script>
         
         <script>
             $(document).foundation();

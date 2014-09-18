@@ -31,6 +31,10 @@ $('body').on('click', '#24gameButton', function() {
     disegnaTavola();
 });
 
+$('body').on('click', '#infoButton', function() {
+   $('#info') .foundation('reveal','open');
+});
+
 $('body').on('click', '#mescolaButton', function() {
     mescolaTavola();
 });
@@ -78,20 +82,6 @@ $('select').change(function () {
             $('#euristica').show();
             $('#opzioniIDA').hide();
             break;
-        case 'IDA':
-            $('#euristica').show();
-            $('#opzioniIDA').show();
-            $('#opzioniIDA').foundation('slider', 'set_value', 0);
-            $('#nonImplementatoModal').foundation('reveal', 'open');
-            break;
-        case 'RBFS':
-            $('#euristica').show();
-            $('#opzioniIDA').hide();
-            $('#nonImplementatoModal').foundation('reveal', 'open');
-            break;
-        default:
-            $('#opzioniIDA').hide();
-            $('#euristica').hide();
     }
 });
 

@@ -32,6 +32,8 @@ function ricercaGrafo(stato, strategia, euristica, cutoff) {
     console.log('on ricercaGrafo', strategia, euristica, cutoff);
 
     tempoInizio = Date.now();
+    nodiVisitati = 0;
+
     var esplorati = [];
     var frontiera = [];
 
@@ -292,14 +294,6 @@ function calcolaCostoStrategia(strategia, nodo, euristica) {
             }
             nodo.costoCammino = nodo.padre.costoCammino + Math.abs(nodo.padre.costoStimato - nodo.costoStimato);
             costo = nodo.costoCammino + nodo.costoStimato;
-            break;
-        case 'IDA':
-            break;
-        case 'RBFS':
-            break;
-        case 'hill-climbing':
-            break;
-        case 'annealing':
             break;
     }
 

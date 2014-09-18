@@ -33,8 +33,7 @@
                                 <li><a href='#' id='24gameButton'>24 game</a></li>
                             </ul>
                         </li>
-                        <li><a href='#'>Statistiche</a></li>
-                        <li><a href='#'>Info</a></li>
+                        <li><a href='#' id='infoButton'>Info</a></li>
                     </ul>
                     <!-- Left Nav Section -->
                     <ul class='left'>
@@ -62,8 +61,6 @@
                             <select>
                                 <option value='greedy'>Ricerca best-first greedy</option>
                                 <option value='A'>Ricerca A*</option>
-                                <option value='IDA'>Iterative Deepening A*</option>
-                                <option value='RBFS'>Recursive Best First Search</option>
                             </select>
                         </fieldset>
                     </div>
@@ -154,9 +151,9 @@
             <h2>La tavola è stata risolta!</h2>
             <ul>
                 <li>Tavola risolta in: <span id='durata'></span> s</li>
-                <li>Lunghezza della soluzione: <span id='lunghezza'></span> azioni</li>
-                <li>Numero di nodi visitati: <span id='numeroNodi'></span></li>
                 <li>Profondità della soluzione: <span id='profondità'></span></li>
+                <li>Numero di nodi visitati: <span id='numeroNodi'></span></li>
+                <li>Lunghezza della soluzione: <span id='lunghezza'></span> azioni</li>
             </ul>
             <a class="close-reveal-modal">&#215;</a>
         </div>
@@ -164,6 +161,14 @@
         <div id="nonImplementatoModal" class="reveal-modal" data-reveal>
             <h2>L'algoritmo non è ancora stato implementato!</h2>
             <p>Gli algoritmi funzionanti sono "Ricerca best-first greedy" e "Ricerca A*"</p>
+            <a class="close-reveal-modal">&#215;</a>
+        </div>
+
+        <div id="info" class="reveal-modal" data-reveal>
+            <h2>Gioco del 15</h2>
+            <p>Progetto per il corso di Intelligenza Artificiale</p>
+            <p>Realizzato dallo studente Pezzutti Marco - matricola 1084411</p>
+            <p>Anno accademico 2013-2014</p>
             <a class="close-reveal-modal">&#215;</a>
         </div>
 

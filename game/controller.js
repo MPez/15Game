@@ -130,9 +130,9 @@ function risolviTavola(strategia, euristica, cutoff) {
 //funzione che mostra la finestra modale con le statistiche della soluzione trovata
 function mostraModal() {
     $('#durata').text(durata / 1000);
-    $('#lunghezza').text(soluzione.length);
-    $('#numeroNodi').text(nodiVisitati);
     $('#profondità').text(soluzione[0].profondità);
+    $('#numeroNodi').text(nodiVisitati);
+    $('#lunghezza').text(soluzione.length);
 
     $('#risoltoModal').foundation('reveal','open');
 }
